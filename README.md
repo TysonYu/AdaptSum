@@ -11,5 +11,5 @@
 
 Paper accepted at the [NAACL-HLT 2021](https://2021.naacl.org):
 
-**Towards Low-Resource Domain Adaptation for Abstractive Summarization**, by [Tiezheng Yu](https://wenliangdai.github.io/), [Zihan Liu](https://zliucr.github.io/), [Pascale Fung](https://pascale.home.ece.ust.hk).
+**Towards Low-Resource Domain Adaptation for Abstractive Summarization**, by [Tiezheng Yu](https://tysonyu.github.io/), [Zihan Liu](https://zliucr.github.io/), [Pascale Fung](https://pascale.home.ece.ust.hk).
 
