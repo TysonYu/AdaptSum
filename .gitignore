@@ -1,0 +1,6 @@
+__pycache__/
+data
+savings
+.vscode
+processed_datasets/
+*.pt
