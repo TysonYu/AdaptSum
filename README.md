@@ -145,8 +145,8 @@ We release all the data for SDPT, DAPT and TAPT on google drive. [Here](https://
         ```
 
 5. Evaluate the performance
-    1) make a folder named `inference` at `logs`
-    2) you can do inference by
+    1) Make a folder named `inference` at `logs`
+    2) You can do inference by
         ```
         python ./src/inference.py -visible_gpu=0 -train_from=YOUR_SAVED_CHECKPOINT
         ```
