@@ -4,7 +4,7 @@ import os
 from transformers import BartTokenizer, get_linear_schedule_with_warmup
 from others.logging import logger
 from others.utils import pad_sents, get_mask
-from tools.cal_rouge import test_rouge, rouge_results_to_str
+from cal_rouge import test_rouge, rouge_results_to_str
 from dapt_pretraining import text_infilling, sent_permutation, add_noise
 
 def train(model, training_data, validation_data, optimizer, checkpoint, args, pretrained_model):

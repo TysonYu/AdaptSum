@@ -69,7 +69,7 @@ We release all the data for SDPT, DAPT and TAPT on google drive. [Here](https://
 
 ## Finetune
 ### here we take `debate domain` as an example
-1. Create a new folder named `debate` at `logs`.
+1. Create a new folder named `debate` at `logs`
 2. Prepare dataloader:
     ```
     python ./src/preprocessing.py -data_path=dataset/ \
@@ -85,7 +85,7 @@ We release all the data for SDPT, DAPT and TAPT on google drive. [Here](https://
                             -mode=test \
                             -batch_size=4
     ```
-3. Install `pyrouge` package:
+3. Install `pyrouge` package
     - Step 1 : Install Pyrouge from source (not from pip)
     ```
     git clone https://github.com/bheinzerling/pyrouge
@@ -118,28 +118,39 @@ We release all the data for SDPT, DAPT and TAPT on google drive. [Here](https://
     ```
 
 
+4. Run Finetuning
+    - If you don't want to use any pretrained model, run:
+        ```
+        python ./src/run.py -visible_gpu=0 \
+                            -data_name=debate  \
+                            -save_interval=100 \
+                            -start_to_save_iter=3000
+        ```
+    - If you want to use pretrained checkpoints from **SDPT**, run:
+        ```
+        python ./src/run.py -visible_gpu=0 \
+                            -data_name=debate \
+                            -save_interval=100 \
+                            -start_to_save_iter=3000 \
+                            -pre_trained_src \
+                            -train_from=YOUR_SAVED_CHECKPOINTS
+        ```
+    - If you want to use pretrained checkpoints from **DAPT** or **TAPT**, run:
+        ```
+        python ./src/run.py -visible_gpu=0 \
+                            -data_name=debate \
+                            -save_interval=100 \
+                            -start_to_save_iter=3000 \
+                            -pre_trained_lm=YOUR_SAVED_CHECKPOINTS
+        ```
 
-- If you don't want to use any pretrained model, run:
-    ```
-    python ./src/run.py -visible_gpu=0 \
-                        -data_name=debate  \
-                        -save_interval=100 \
-                        -start_to_save_iter=3000
-    ```
-- If you want to use pretrained checkpoints from **SDPT**, run:
-    ```
-    python ./src/run.py -visible_gpu=0 \
-                        -data_name=debate \
-                        -save_interval=100 \
-                        -start_to_save_iter=3000 \
-                        -pre_trained_src \
-                        -train_from=YOUR_SAVED_CHECKPOINTS
-    ```
-- If you want to use pretrained checkpoints from **DAPT** or **TAPT**, run:
-    ```
-    python ./src/run.py -visible_gpu=0 \
-                        -data_name=debate \
-                        -save_interval=100 \
-                        -start_to_save_iter=3000 \
-                        -pre_trained_lm=YOUR_SAVED_CHECKPOINTS
-    ```
+5. Evaluate the performance
+    1) make a folder named `inference` at `logs`
+    2) you can do inference by
+        ```
+        python ./src/inference.py -visible_gpu=0 -train_from=YOUR_SAVED_CHECKPOINT
+        ```
+    3) You can calculate rouge scores by
+        ```
+        python ./src/cal_roug.py -c=CANDIDATE_FILE -r=REFERENCE_FILE -p=NUMBER_OF_PROCESS
+        ```

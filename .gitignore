@@ -4,3 +4,6 @@ savings
 .vscode
 processed_datasets/
 *.pt
+logs
+pyrouge
+save

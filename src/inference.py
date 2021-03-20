@@ -6,7 +6,7 @@ from transformers import BartTokenizer
 from transformers import BartForConditionalGeneration
 from others.logging import init_logger, logger
 from others.utils import load, count_parameters, initialize_weights, fix_random_seed
-from preprocess import BartDataset, DataReader
+from preprocessing import BartDataset, DataReader
 from others.optimizer import build_optim
 from trainer import train
 
@@ -51,7 +51,7 @@ if __name__ == '__main__':
     # loading data
     # it's faster to load data from pre_build data
     logger.info('starting to read dataloader')
-    data_file_name = '../datasets/' + args.data_name + '/testloader.pt'
+    data_file_name = './dataset/' + args.data_name + '/testloader.pt'
     train_loader = load(data_file_name)
 
     # initial tokenizer
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     model.eval()
 
     # inference and save model
-    save_file_name = '../datasets/' + args.data_name + '/summaries'
+    save_file_name = './dataset/' + args.data_name + '/summaries'
     summaries = open(save_file_name, 'w')
     outputs = []
     for src_ids, decoder_ids, mask, label_ids in tqdm(train_loader):
