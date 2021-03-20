@@ -29,32 +29,32 @@ We release all the data for SDPT, DAPT and TAPT on google drive. [Here](https://
 1. Create a new folder named `dataset` at the root of this project
 2. Download the data from google drive and then put it in the `dataset` folder
 3. Create the conda environment
-```
-conda create -n adaptsum python=3.6
-```
+    ```
+    conda create -n adaptsum python=3.6
+    ```
 4. Activate the conda environment
-```
-conda activate adaptsum
-```
+    ```
+    conda activate adaptsum
+    ```
 5. Install pytorch. Please check your CUDA version before the installation and modify it accordingly, or you can refer to [pytorch website](https://pytorch.org)
-```
-conda install pytorch cudatoolkit=11.0 -c pytorch
-```
+    ```
+    conda install pytorch cudatoolkit=11.0 -c pytorch
+    ```
 6. Install requirements
-```
-pip install -r requirements.txt
-```
+    ```
+    pip install -r requirements.txt
+    ```
 7. Create a new folder named `logs` at the root of this project
 ## SDPT pretraining
 ### here we take `cnn_dm` as an example
 1. Create a new folder named `SDPT_save` at the root of this project
 2. Prepare dataloader:
-```
-python ./src/preprocessing.py -data_path=dataset/ \
-                        -data_name=SDPT-cnn_dm \
-                        -mode=train \
-                        -batch_size=4
-```
+    ```
+    python ./src/preprocessing.py -data_path=dataset/ \
+                            -data_name=SDPT-cnn_dm \
+                            -mode=train \
+                            -batch_size=4
+    ```
 3. Run `./scripts/sdpt_pretraining.sh`. If you want to use recadam uncomment `-recadam` and `-logging_Euclid_dist`
 
 ## DAPT pretraining
@@ -69,25 +69,77 @@ python ./src/preprocessing.py -data_path=dataset/ \
 
 ## Finetune
 ### here we take `debate domain` as an example
-1. Create a new folder named `Finetune_save` at the root of this project
+1. Create a new folder named `debate` at `logs`.
 2. Prepare dataloader:
-```
-python ./src/preprocessing.py -data_path=dataset/ \
-                        -data_name=debate \
-                        -mode=train \
-                        -batch_size=4
-python ./src/preprocessing.py -data_path=dataset/ \
-                        -data_name=debate \
-                        -mode=valid \
-                        -batch_size=4
-python ./src/preprocessing.py -data_path=dataset/ \
-                        -data_name=debate \
-                        -mode=test \
-                        -batch_size=4
-```
-3.
+    ```
+    python ./src/preprocessing.py -data_path=dataset/ \
+                            -data_name=debate \
+                            -mode=train \
+                            -batch_size=4
+    python ./src/preprocessing.py -data_path=dataset/ \
+                            -data_name=debate \
+                            -mode=valid \
+                            -batch_size=4
+    python ./src/preprocessing.py -data_path=dataset/ \
+                            -data_name=debate \
+                            -mode=test \
+                            -batch_size=4
+    ```
+3. Install `pyrouge` package:
+    - Step 1 : Install Pyrouge from source (not from pip)
+    ```
+    git clone https://github.com/bheinzerling/pyrouge
+    cd pyrouge
+    pip install -e .
+    ```
+    - Step 2 : Install official ROUGE script
+    ```
+    git clone https://github.com/andersjo/pyrouge.git rouge
+    ```
+    - Step 3 : Point Pyrouge to official rouge script (The path given to pyrouge should be absolute path !)
+    ```
+    pyrouge_set_rouge_path ~/pyrouge/rouge/tools/ROUGE-1.5.5/
+    ```
+    - Step 4 : Install libxml parser
+    As mentioned in this [issue](https://github.com/bheinzerling/pyrouge/issues/27), you need to install libxml parser
+    ```
+    sudo apt-get install libxml-parser-perl
+    ```
+    - Step 5 : Regenerate the Exceptions DB
+    As mentioned in this [issue](https://github.com/bheinzerling/pyrouge/issues/8), you need to regenerate the Exceptions DB
+    ```
+    cd rouge/tools/ROUGE-1.5.5/data
+    rm WordNet-2.0.exc.db
+    ./WordNet-2.0-Exceptions/buildExeptionDB.pl ./WordNet-2.0-Exceptions ./smart_common_words.txt ./WordNet-2.0.exc.db
+    ```
+    - Step 6 : Run the tests
+    ```
+    python -m pyrouge.test
+    ```
+
+
+
 - If you don't want to use any pretrained model, run:
-```
-python ./src/run.py -visible_gpu=4 -data_name=debate  -start_to_save_iter=500
-```
-- If you want to use
+    ```
+    python ./src/run.py -visible_gpu=0 \
+                        -data_name=debate  \
+                        -save_interval=100 \
+                        -start_to_save_iter=3000
+    ```
+- If you want to use pretrained checkpoints from **SDPT**, run:
+    ```
+    python ./src/run.py -visible_gpu=0 \
+                        -data_name=debate \
+                        -save_interval=100 \
+                        -start_to_save_iter=3000 \
+                        -pre_trained_src \
+                        -train_from=YOUR_SAVED_CHECKPOINTS
+    ```
+- If you want to use pretrained checkpoints from **DAPT** or **TAPT**, run:
+    ```
+    python ./src/run.py -visible_gpu=0 \
+                        -data_name=debate \
+                        -save_interval=100 \
+                        -start_to_save_iter=3000 \
+                        -pre_trained_lm=YOUR_SAVED_CHECKPOINTS
+    ```

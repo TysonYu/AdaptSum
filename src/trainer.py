@@ -59,7 +59,7 @@ def train(model, training_data, validation_data, optimizer, checkpoint, args, pr
                     logger.info("iteration: {} loss_per_word: {:4f} learning rate: {:4f} ".format(iteration, total_loss/20, optimizer.learning_rate))
                 total_loss = 0
             # save model
-            if iteration % 100 == 0 and iteration > args.start_to_save_iter:
+            if iteration % args.save_interval == 0 and iteration > args.start_to_save_iter:
                 temp_F1 = evaluation(model, validation_data, args)
                 model.train()
                 if temp_F1 > F1:
@@ -152,7 +152,7 @@ def multitask_train(model_lm, model_cnn, cnn_train_data, cnn_valid_data, tgtdoma
 
 def evaluation(model, validation_data, args):
     model.eval()
-    valid_reference_path = '../datasets/' + args.data_name + '/valid.target'
+    valid_reference_path = './dataset/' + args.data_name + '/valid.target'
     valid_data = open(valid_reference_path,'r')
     valid_list = valid_data.readlines()
     valid_list = [i.strip('\n') for i in valid_list]
@@ -169,13 +169,6 @@ def evaluation(model, validation_data, args):
     R1_F1 = final_results["rouge_1_f_score"] * 100
     logger.info('[ Validation ]')
     logger.info(rouge_results_to_str(final_results))
-    # ==============================================
-    fw = open('../datasets/email/validation_sum','w')
-    outputs = [line+'\n' for line in outputs]
-    print(outputs[:4])
-    fw.writelines(outputs)
-    fw.close()
-    # ==============================================
     return R1_F1
 
 def make_file_name(args, iteration):

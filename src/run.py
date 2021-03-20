@@ -22,11 +22,9 @@ def make_log_file_name(args):
     return log_file_name
 
 def load_dataloader(args):
-    train_file_name = '../datasets/' + args.data_name + '/trainloader.pt'
-    if args.minor_data:
-        train_file_name = '../datasets/' + args.data_name + '/minor_data/trainloader{}.pt'.format(str(args.percentage))
+    train_file_name = './dataset/' + args.data_name + '/trainloader.pt'
     train_loader = load(train_file_name)
-    valid_file_name = '../datasets/' + args.data_name + '/validloader.pt'
+    valid_file_name = './dataset/' + args.data_name + '/validloader.pt'
     valid_loader = load(valid_file_name)
     logger.info('train loader has {} samples'.format(len(train_loader.dataset)))
     return train_loader, valid_loader
@@ -66,12 +64,6 @@ def load_model(args):
         model_cnn.model.encoder = model_lm.model.encoder
 
         print("dont share decoder!")
-        # # decoder part
-        # model_cnn.model.decoder.embed_tokens = model_lm.model.decoder.embed_tokens
-        # model_cnn.model.decoder.embed_positions = model_lm.model.decoder.embed_positions
-        # for i in range(3):
-        #     model_cnn.model.decoder.layers[i] = model_lm.model.decoder.layers[i]
-        # model_cnn.model.decoder.layernorm_embedding = model_lm.model.decoder.layernorm_embedding
         model = None
         return model_lm, model_cnn, checkpoint
     return model, checkpoint
@@ -82,14 +74,13 @@ if __name__ == '__main__':
     parser.add_argument('-visible_gpu', default='1', type=str)
     parser.add_argument('-log_file', default='./logs/', type=str)
     parser.add_argument('-train_from', default='', type=str)
-    parser.add_argument('-random_seed', type=int, default=199744)
+    parser.add_argument('-random_seed', type=int, default=0)
     parser.add_argument('-lr', default=0.05, type=float)
     parser.add_argument('-max_grad_norm', default=0, type=float)
     parser.add_argument('-epoch', type=int, default=50)
     parser.add_argument('-max_iter', type=int, default=800000)
     parser.add_argument('-saving_path', default='./save/', type=str)
     parser.add_argument('-data_name', default='debate', type=str)
-    parser.add_argument('-minor_data', action='store_true')
     parser.add_argument('-pre_trained_lm', default='', type=str)
     parser.add_argument('-pre_trained_src', action='store_true')
     parser.add_argument('-break_point_continue', action='store_true')
@@ -109,7 +100,8 @@ if __name__ == '__main__':
     parser.add_argument('-bsz', default=4, type=int, help='batch size')
     # for evaluation
     parser.add_argument('-process_num', default=4, type=int)
-    parser.add_argument('-start_to_save_iter', default=3000, type=int)
+    parser.add_argument('-save_interval', default=100, type=int)
+    parser.add_argument('-start_to_save_iter', default=100, type=int)
     # using RecAdam
     parser.add_argument("-adam_epsilon", default=1e-8, type=float, help="Epsilon for Adam optimizer.")
     parser.add_argument('-recadam', default=False, action='store_true')
