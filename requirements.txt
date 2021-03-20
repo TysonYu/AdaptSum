@@ -1,0 +1,4 @@
+numpy
+tqdm
+transformers>=3.0.2
+nltk
