@@ -13,16 +13,6 @@ Paper accepted at the [NAACL-HLT 2021](https://2021.naacl.org):
 
 **[AdaptSum: Towards Low-Resource Domain Adaptation for Abstractive Summarization](https://arxiv.org/pdf/2103.11332)**, by **[Tiezheng Yu](https://tysonyu.github.io/)**, **[Zihan Liu](https://zliucr.github.io/)**, [Pascale Fung](https://pascale.home.ece.ust.hk).
 
-If your work is inspired by our paper, or you use any code snippets in this repo, please cite this paper, the BibTex is shown below:
-
-<pre>
-@inproceedings{Yu2021AdaptSum,
-  title={AdaptSum: Towards Low-Resource Domain Adaptation for Abstractive Summarization},
-  author={Tiezheng Yu and Zihan Liu and Pascale Fung},
-  year={2021}
-}
-</pre>
-
 ## Abstract
 State-of-the-art abstractive summarization models generally rely on extensive labeled data, which lowers their generalization ability on domains where such data are not available. In this paper, we present a study of domain adaptation for the abstractive summarization task across six diverse target domains in a low-resource setting. Specifically, we investigate the second phase of pre-training on large-scale generative models under three different settings: 1) source domain pre-training; 2) domain-adaptive pre-training; and 3) task-adaptive pre-training. Experiments show that the effectiveness of pre-training is correlated with the similarity between the pre-training data and the target domain task. Moreover, we find that continuing pre-training could lead to the pre-trained model's catastrophic forgetting, and a learning method with less forgetting can alleviate this issue. Furthermore, results illustrate that a huge gap still exists between the low-resource and high-resource settings, which highlights the need for more advanced domain adaptation methods for the abstractive summarization task.
 
@@ -159,3 +149,73 @@ We release the AdaptSum dataset, which contains the summarization datasets acros
         ```
         python ./src/cal_roug.py -c=CANDIDATE_FILE -r=REFERENCE_FILE -p=NUMBER_OF_PROCESS
         ```
+
+## References
+If you use our benchmark or the code in this repo, please cite our paper
+
+<pre>
+@inproceedings{Yu2021AdaptSum,
+  title={AdaptSum: Towards Low-Resource Domain Adaptation for Abstractive Summarization},
+  author={Tiezheng Yu and Zihan Liu and Pascale Fung},
+  year={2021}
+}
+</pre>
+
+Also, please consider citing all the individual datasets in your paper.
+
+Dialog domain:
+<pre>
+@inproceedings{gliwa2019samsum,
+  title={SAMSum Corpus: A Human-annotated Dialogue Dataset for Abstractive Summarization},
+  author={Gliwa, Bogdan and Mochol, Iwona and Biesek, Maciej and Wawer, Aleksander},
+  booktitle={Proceedings of the 2nd Workshop on New Frontiers in Summarization},
+  pages={70--79},
+  year={2019}
+}
+</pre>
+
+Email domain:
+<pre>
+@inproceedings{zhang2019email,
+  title={This Email Could Save Your Life: Introducing the Task of Email Subject Line Generation},
+  author={Zhang, Rui and Tetreault, Joel},
+  booktitle={Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics},
+  pages={446--456},
+  year={2019}
+}
+</pre>
+
+Movie and debate domains:
+<pre>
+@inproceedings{wang2016neural,
+  title={Neural Network-Based Abstract Generation for Opinions and Arguments},
+  author={Wang, Lu and Ling, Wang},
+  booktitle={Proceedings of the 2016 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies},
+  pages={47--57},
+  year={2016}
+}
+</pre>
+
+Social media domain:
+<pre>
+@inproceedings{kim2019abstractive,
+  title={Abstractive Summarization of Reddit Posts with Multi-level Memory Networks},
+  author={Kim, Byeongchang and Kim, Hyunwoo and Kim, Gunhee},
+  booktitle={Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers)},
+  pages={2519--2531},
+  year={2019}
+}
+</pre>
+
+Science domain:
+<pre>
+@inproceedings{yasunaga2019scisummnet,
+  title={Scisummnet: A large annotated corpus and content-impact models for scientific paper summarization with citation networks},
+  author={Yasunaga, Michihiro and Kasai, Jungo and Zhang, Rui and Fabbri, Alexander R and Li, Irene and Friedman, Dan and Radev, Dragomir R},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={33},
+  pages={7386--7393},
+  year={2019}
+}
+</pre>
+
