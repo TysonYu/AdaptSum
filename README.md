@@ -11,19 +11,23 @@
 
 Paper accepted at the [NAACL-HLT 2021](https://2021.naacl.org):
 
-**AdaptSum: Towards Low-Resource Domain Adaptation for Abstractive Summarization**, by **[Tiezheng Yu](https://tysonyu.github.io/)**, **[Zihan Liu](https://zliucr.github.io/)**, [Pascale Fung](https://pascale.home.ece.ust.hk).
+**[AdaptSum: Towards Low-Resource Domain Adaptation for Abstractive Summarization](https://arxiv.org/pdf/2103.11332)**, by **[Tiezheng Yu](https://tysonyu.github.io/)**, **[Zihan Liu](https://zliucr.github.io/)**, [Pascale Fung](https://pascale.home.ece.ust.hk).
 
 If your work is inspired by our paper, or you use any code snippets in this repo, please cite this paper, the BibTex is shown below:
 
 <pre>
-
+@inproceedings{Yu2021AdaptSum,
+  title={AdaptSum: Towards Low-Resource Domain Adaptation for Abstractive Summarization},
+  author={Tiezheng Yu and Zihan Liu and Pascale Fung},
+  year={2021}
+}
 </pre>
 
 ## Abstract
 State-of-the-art abstractive summarization models generally rely on extensive labeled data, which lowers their generalization ability on domains where such data are not available. In this paper, we present a study of domain adaptation for the abstractive summarization task across six diverse target domains in a low-resource setting. Specifically, we investigate the second phase of pre-training on large-scale generative models under three different settings: 1) source domain pre-training; 2) domain-adaptive pre-training; and 3) task-adaptive pre-training. Experiments show that the effectiveness of pre-training is correlated with the similarity between the pre-training data and the target domain task. Moreover, we find that continuing pre-training could lead to the pre-trained model's catastrophic forgetting, and a learning method with less forgetting can alleviate this issue. Furthermore, results illustrate that a huge gap still exists between the low-resource and high-resource settings, which highlights the need for more advanced domain adaptation methods for the abstractive summarization task.
 
 ## Dataset
-We release all the data for SDPT, DAPT and TAPT on google drive. [Here](https://drive.google.com/drive/folders/1qdkavIQonTAepkJhGpo3TZpU4LUW44sp?usp=sharing) is the link for AdaptSum.
+We release the AdaptSum dataset, which contains the summarization datasets across six target domains as well as the corpora for SDPT, DAPT and TAPT. You can download AdaptSum from [Here](https://drive.google.com/drive/folders/1qdkavIQonTAepkJhGpo3TZpU4LUW44sp?usp=sharing).
 
 ## Preparation for running
 1. Create a new folder named `dataset` at the root of this project
@@ -46,7 +50,7 @@ We release all the data for SDPT, DAPT and TAPT on google drive. [Here](https://
     ```
 7. Create a new folder named `logs` at the root of this project
 ## SDPT pretraining
-### here we take `cnn_dm` as an example
+- We take `cnn_dm` as an example
 1. Create a new folder named `SDPT_save` at the root of this project
 2. Prepare dataloader:
     ```
@@ -55,21 +59,22 @@ We release all the data for SDPT, DAPT and TAPT on google drive. [Here](https://
                             -mode=train \
                             -batch_size=4
     ```
-3. Run `./scripts/sdpt_pretraining.sh`. If you want to use recadam uncomment `-recadam` and `-logging_Euclid_dist`
+3. Run `./scripts/sdpt_pretraining.sh`. You can add `-recadam` and `-logging_Euclid_dist` to use RecAdam.
 
 ## DAPT pretraining
-### here we take `debate domain` as an example
+- We take `debate domain` as an example
 1. Create a new folder named `DAPT_save` at the root of this project
-2. Run `./scripts/dapt_pretraining.sh`. If you want to use recadam uncomment `-recadam` and `-logging_Euclid_dist`
+2. Run `./scripts/dapt_pretraining.sh`. You can add `-recadam` and `-logging_Euclid_dist` to use RecAdam.
 
 ## TAPT pretraining
-### here we take `debate domain` as an example
+- We take `debate domain` as an example
 1. Create a new folder named `TAPT_save` at the root of this project
-2. Run `./scripts/tapt_pretraining.sh`. If you want to use recadam uncomment `-recadam` and `-logging_Euclid_dist`
+2. Run `./scripts/tapt_pretraining.sh`. You can add `-recadam` and `-logging_Euclid_dist` to use RecAdam.
 
-## Finetune
-### here we take `debate domain` as an example
+## Fine-tuning
+- We take `debate domain` as an example
 1. Create a new folder named `debate` at `logs`
+
 2. Prepare dataloader:
     ```
     python ./src/preprocessing.py -data_path=dataset/ \
@@ -85,7 +90,8 @@ We release all the data for SDPT, DAPT and TAPT on google drive. [Here](https://
                             -mode=test \
                             -batch_size=4
     ```
-3. Install `pyrouge` package
+
+3. Install `pyrouge` package (You can skip this if you have already installed `pyrouge`)
     - Step 1 : Install Pyrouge from source (not from pip)
     ```
     git clone https://github.com/bheinzerling/pyrouge
@@ -117,9 +123,8 @@ We release all the data for SDPT, DAPT and TAPT on google drive. [Here](https://
     python -m pyrouge.test
     ```
 
-
 4. Run Finetuning
-    - If you don't want to use any pretrained model, run:
+    - If you don't want to use any second phase of pre-training, run:
         ```
         python ./src/run.py -visible_gpu=0 \
                             -data_name=debate  \
