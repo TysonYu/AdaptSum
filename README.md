@@ -151,7 +151,7 @@ We release the AdaptSum dataset, which contains the summarization datasets acros
         ```
 
 ## References
-If you use our benchmark or the code in this repo, please cite our paper
+If you use our benchmark or the code in this repo, please cite our paper.
 
 <pre>
 @inproceedings{Yu2021AdaptSum,
